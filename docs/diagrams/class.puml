@@ -1,0 +1,105 @@
+@startuml
+
+title "Фитнес-орталықты басқару ақпараттық жүйесі — Class Diagram"
+
+class User {
+    - id: int
+    - name: String
+    - phone: String
+    - login: String
+    - password: String
+    + login(): void
+    + logout(): void
+    + updateProfile(): void
+}
+
+class Client {
+    - clientId: int
+    - birthDate: Date
+    + buySubscription(): void
+    + bookTraining(): void
+    + viewSubscription(): void
+}
+
+class Admin {
+    - adminId: int
+    + addClient(): void
+    + editClient(): void
+    + manageSubscription(): void
+    + createReport(): void
+}
+
+class Trainer {
+    - trainerId: int
+    - specialization: String
+    + viewSchedule(): void
+    + viewClients(): void
+    + addTrainingResult(): void
+}
+
+class Subscription {
+    - subscriptionId: int
+    - type: String
+    - price: double
+    - startDate: Date
+    - endDate: Date
+    - status: String
+    + activate(): void
+    + deactivate(): void
+    + checkValidity(): boolean
+}
+
+class Payment {
+    - paymentId: int
+    - amount: double
+    - paymentDate: Date
+    - status: String
+    - paymentMethod: String
+    + makePayment(): void
+    + checkPayment(): boolean
+}
+
+class Training {
+    - trainingId: int
+    - type: String
+    - dateTime: DateTime
+    - capacity: int
+    + book(): void
+    + cancel(): void
+    + getSchedule(): void
+}
+
+class TrainingResult {
+    - resultId: int
+    - date: Date
+    - description: String
+    + addResult(): void
+    + updateResult(): void
+}
+
+class Report {
+    - reportId: int
+    - reportType: String
+    - createdDate: Date
+    + generateReport(): void
+}
+
+User <|-- Client
+User <|-- Admin
+User <|-- Trainer
+
+Client "1" --> "0..*" Subscription : сатып алады
+Subscription "1" --> "0..*" Payment : төлемі
+
+Client "0..*" --> "0..*" Training : жазылады
+Trainer "1" --> "0..*" Training : өткізеді
+
+Client "1" --> "0..*" TrainingResult : нәтижелері
+Trainer "1" --> "0..*" TrainingResult : енгізеді
+
+Admin "1" --> "0..*" Client : басқарады
+Admin "1" --> "0..*" Subscription : басқарады
+Admin "1" --> "0..*" Payment : бақылайды
+Admin "1" --> "0..*" Report : қалыптастырады
+
+@enduml
