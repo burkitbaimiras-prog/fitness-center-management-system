@@ -1,0 +1,67 @@
+@startuml
+
+left to right direction
+
+actor "Клиент" as Client
+actor "Әкімші" as Admin
+actor "Жаттықтырушы" as Trainer
+actor "Төлем жүйесі" as PaymentSystem
+
+rectangle "Фитнес-орталықты басқару ақпараттық жүйесі" {
+
+    usecase "Жүйеге кіру" as Login
+    usecase "Абонементтерді көру" as ViewSubs
+    usecase "Абонементті таңдау" as SelectSub
+    usecase "Абонементті сатып алу" as BuySub
+    usecase "Төлем жасау" as Payment
+    usecase "Төлемді тексеру" as CheckPayment
+    usecase "Абонементті тіркеу" as RegisterSub
+
+    usecase "Сабаққа жазылу" as BookTraining
+    usecase "Сабақ кестесін көру" as Schedule
+
+    usecase "Клиентті тіркеу" as RegisterClient
+    usecase "Клиент мәліметтерін басқару" as ManageClient
+    usecase "Абонементтерді басқару" as ManageSubs
+    usecase "Төлемдерді бақылау" as ManagePayment
+    usecase "Есеп қалыптастыру" as Report
+
+    usecase "Клиенттер туралы ақпаратты көру" as ViewClients
+    usecase "Жаттығу нәтижелерін енгізу" as AddResult
+}
+
+Client --> Login
+Client --> ViewSubs
+Client --> BuySub
+Client --> BookTraining
+Client --> Schedule
+
+Admin --> Login
+Admin --> RegisterClient
+Admin --> ManageClient
+Admin --> ManageSubs
+Admin --> ManagePayment
+Admin --> Report
+
+Trainer --> Login
+Trainer --> Schedule
+Trainer --> ViewClients
+Trainer --> AddResult
+
+BuySub ..> Login : <<include>>
+BuySub ..> ViewSubs : <<include>>
+BuySub ..> SelectSub : <<include>>
+BuySub ..> Payment : <<include>>
+Payment ..> CheckPayment : <<include>>
+BuySub ..> RegisterSub : <<include>>
+
+BookTraining ..> Login : <<include>>
+BookTraining ..> Schedule : <<include>>
+
+PaymentSystem --> Payment
+PaymentSystem --> CheckPayment
+
+ManageSubs ..> RegisterSub : <<include>>
+ManagePayment ..> CheckPayment : <<include>>
+
+@enduml
